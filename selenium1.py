@@ -1,12 +1,14 @@
 # https://beomi.github.io/gb-crawling/posts/2017-02-27-HowToMakeWebCrawler-With-Selenium.html
 # https://pythondocs.net/selenium/%EC%85%80%EB%A0%88%EB%8B%88%EC%9B%80-%ED%81%AC%EB%A1%A4%EB%9F%AC-%EA%B8%B0%EB%B3%B8-%EC%82%AC%EC%9A%A9%EB%B2%95/
 
+#https://blog.naver.com/nayoung4089/222452595443
+
 # pip install selenium
 from selenium import webdriver
 # from urllib.request import urlopen
 from urllib.parse import quote # 한글 검색어 url에 넣어줌
 # from bs4 import BeautifulSoup
-from selenium.webdriver.common.by import By #find element by xpath 오류 해결 위해
+#from selenium.webdriver.common.by import By #find element by xpath 오류 해결 위해
 
 url = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query="
 
