@@ -39,14 +39,28 @@ class getDirections:
         finish = False
         while not finish:
             which_path = input('최적 [0] or 최소 시간 [1] ? : ')
-            if which_path == '0':
+            
+            if which_path == '1':
+                # 최적이랑 최소 시간이 같으면 최적으로 표시됨
+                xpath__ = '//*[@id="main_pack"]/section[1]/div/div/div/div[2]/div[3]/div/div[1]/div[2]/ul/li[3]/div/div[1]/button[1]/em'
+                driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+                driver.get(self.url_)
+                content1 = driver.find_element("xpath", xpath__)
+                driver.quit
+                
+                if content1.text == '최소시간':
+                    self.xpath1 = '//*[@id="main_pack"]/section[1]/div/div/div/div[2]/div[3]/div/div[1]/div[2]/ul/li[3]/div/div[1]/button[1]/dl/div[1]/dd/span/span[1]'
+                    self.xpath2 = ''
+                    # path2 : 정보 들어있는 네모 칸
+                    finish = True
+                    break
+                else:
+                    which_path = '0'
+                    
+            elif which_path == '0':
                 self.xpath1 = '//*[@id="main_pack"]/section[1]/div/div/div/div[2]/div[3]/div/div[1]/div[2]/ul/li[1]/div/div[1]/button[1]/dl/div[1]/dd/span/span[1]'
                 self.xpath2 = '//*[@id="main_pack"]/section[1]/div/div/div/div[2]/div[3]/div/div[1]/div[2]/ul[1]/li/div/div[2]/div/ol'
                 # path2 : 정보 들어있는 네모 칸
-                finish = True
-            elif which_path == '1':
-                # 최적이랑 최소 시간이 같으면 최적으로 표시됨
-                # 나중에 낮에 xpath 찾아보기
                 finish = True
             else:
                 print('Please Retry')
@@ -54,11 +68,12 @@ class getDirections:
     def UseSubway(self):
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
         driver.get(self.url_)
-        content1 = driver.find_element("xpath", '//*[@id="main_pack"]/section[1]/div/div/div/div[2]/div[3]/div/div[1]/div[2]/ul/li[1]/div/div[2]/div/ol')#self.xpath2)
-        # 이거 왜 xpath 인식이 안되냐
+        time.sleep(3)
+        content1 = driver.find_element("xpath", '//*[@id="main_pack"]/section[1]/div/div/div/div[2]/div[3]/div/div[1]/div[2]/ul')#self.xpath2)
+        # 이거 왜 xpath 인식이 안되냐 -> time.sleep(3) 안해서 그럼
         source_code1 = content1.get_attribute("outerHTML")
         driver.quit
-        return type(source_code1)
+        return source_code1
         
     def getTime(self):
         
@@ -71,15 +86,15 @@ class getDirections:
         #content1_time = content1.text
 
         # xpath2 : '지하철' 시간
-        xpath2_1 = '//*[@id="main_pack"]/section[1]/div/div/div/div[2]/div[3]/div/div[1]/div[1]/div[1]/div/ul/li[3]/button'
-        time.sleep(3)
-        driver.find_element("xpath", xpath2_1).click() # "지하철" 버튼 클릭, 지하철 경로만 보이도록 함
-        xpath2_2 = '//*[@id="main_pack"]/section[1]/div/div/div/div[2]/div[3]/div/div[1]/div[2]/ul/li[1]/div/div[1]/button[1]/dl/div[1]/dd/span/span[1]'
-        content2 = driver.find_element("xpath", xpath2_2)
-        content2_time = content2 #.text
+        # xpath2_1 = '//*[@id="main_pack"]/section[1]/div/div/div/div[2]/div[3]/div/div[1]/div[1]/div[1]/div/ul/li[3]/button'
+        # time.sleep(3)
+        # driver.find_element("xpath", xpath2_1).click() # "지하철" 버튼 클릭, 지하철 경로만 보이도록 함
+        # xpath2_2 = '//*[@id="main_pack"]/section[1]/div/div/div/div[2]/div[3]/div/div[1]/div[2]/ul/li[1]/div/div[1]/button[1]/dl/div[1]/dd/span/span[1]'
+        # content2 = driver.find_element("xpath", xpath2_2)
+        # content2_time = content2 #.text
+        content_time = driver.find_element("xpath", self.xpath1).text
         driver.quit
-        print(content2_time)
-        return content2_time
+        return content_time
     
 class aaa(getDirections):
     def __init__(self):
@@ -95,6 +110,6 @@ class aaa(getDirections):
     """
 
 if __name__=="__main__":
-    try1 = getDirections()
+    try1 = getDirections() #'사직역', '서면역')
     print(try1.UseSubway())
     # print(try1.getTime(1, 2))
